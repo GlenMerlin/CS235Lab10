@@ -20,16 +20,15 @@ def getForecast():
 # TODO: Write code for api.weather.com/v3/wx/conditions/historical/dailysummary/30day
 # DOCS: https://weather.com/swagger-docs/ui/sun/v3/SUNv3HistoricalConditionsDailySummary.json
 
-# TODO: Write code for  api.weather.com/v1/location/{postalCode}/forecast/precipitation.json
+# TODO: Write code for api.weather.com/v1/location/{postalCode}/forecast/precipitation.json
 # https://weather.com/swagger-docs/ui/sun/v1/sunV1Short-RangeForecastPrecipitation.json
 
 if __name__ == "__main__":
-    
     print('Here is your daily news update!')
     print('-------------------------------')
     forecast = getForecast()
     print(forecast)
     print(forecast['narrative_512char'])
-    #activeAlerts = getActive()
-    #print (f"There are currently {activeAlerts['total']} Active Weather Alerts in the U.S. Today.")
+    activeAlerts = getActive()
+    print (f"There are currently {activeAlerts['total']} Active Weather Alerts in the U.S. Today.")
     print('Done!')
