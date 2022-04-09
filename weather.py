@@ -17,18 +17,42 @@ def getForecast():
     forecast = response['forecast']
     return forecast
 
-# TODO: Write code for api.weather.com/v3/wx/conditions/historical/dailysummary/30day
-# DOCS: https://weather.com/swagger-docs/ui/sun/v3/SUNv3HistoricalConditionsDailySummary.json
-
-# TODO: Write code for api.weather.com/v1/location/{postalCode}/forecast/precipitation.json
-# https://weather.com/swagger-docs/ui/sun/v1/sunV1Short-RangeForecastPrecipitation.json
+def getRain():
+    response = requests.get(f'https://api.weather.com/v1/location/84604:4:US/forecast/precipitation.json?language=en-US&units=e&apiKey={apiKey}')
+    response = response.json()
+    characteristic = ''
+    intensity = ''
+    event = "raining"
+    if response['forecasts'][0]['characteristic'] == 0:
+        characteristic = "not currently"
+    elif response['forecasts'][0]['characteristic'] == 1:
+        characteristic = "intermittently"
+    elif response['forecasts'][0]['characteristic'] == 2:
+        characteristic = "currently"
+        
+    if response['forecasts'][0]['intensity'] == 1:
+        intensity = " lightly"
+    elif response['forecasts'][0]['intensity'] == 2:
+        intensity = " moderately"
+    elif response['forecasts'][0]['intensity'] == 3:
+        intensity = " heavily"
+    
+    elif response['forecasts'][0]['event_type'] == 2:
+        event = "snowing"
+    elif response['forecasts'][0]['event_type'] == 3:
+        event = "raining and snowing"
+    elif response['forecasts'][0]['event_type'] == 4:
+        event = "thunderstorming"
+    
+    print(f"It is {characteristic}{intensity} {event}")
+    
 
 if __name__ == "__main__":
     print('Here is your daily news update!')
     print('-------------------------------')
     forecast = getForecast()
-    print(forecast)
     print(forecast['narrative_512char'])
     activeAlerts = getActive()
     print (f"There are currently {activeAlerts['total']} Active Weather Alerts in the U.S. Today.")
+    getRain()
     print('Done!')
